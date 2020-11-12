@@ -5,6 +5,7 @@ import java.util.UUID
 import bifrost.modifier.box.{ExecutionBox, ProgramBox}
 import bifrost.utils.Extensions._
 import bifrost.utils.serialization.{BifrostSerializer, Reader, Writer}
+import com.google.common.primitives.Longs
 
 object ExecutionBoxSerializer extends BifrostSerializer[ExecutionBox] {
 
@@ -14,6 +15,7 @@ object ExecutionBoxSerializer extends BifrostSerializer[ExecutionBox] {
     /* stateBoxUUIDs: Seq[UUID], List of uuids of state boxes from ProgramBoxRegistry */
     w.putUInt(obj.stateBoxUUIDs.length)
     obj.stateBoxUUIDs.foreach { id =>
+      // The SignificantBits could be negative longs
       w.putLong(id.getMostSignificantBits)
       w.putLong(id.getLeastSignificantBits)
     }
@@ -31,7 +33,11 @@ object ExecutionBoxSerializer extends BifrostSerializer[ExecutionBox] {
 
     /* stateBoxUUIDs: Seq[UUID], List of uuids of state boxes from ProgramBoxRegistry */
     val stateBoxUUIDsLength: Int = r.getUInt().toIntExact
-    val stateBoxUUIDs: Seq[UUID] = (0 until stateBoxUUIDsLength).map(_ => new UUID(r.getLong(), r.getLong()))
+    println(s"\n>>>>>>>>>>>>>>>>>>>>> programBox: ${programBox}")
+    println(s">>>>>>>>>>>>>>>>>>>>> stateBoxUUIDsLength: ${stateBoxUUIDsLength}")
+    val stateBoxUUIDs: Seq[UUID] = (0 until stateBoxUUIDsLength).map(i => {
+      new UUID(r.getLong(), r.getLong())
+    })
 
     /* codeBoxIds: Seq[Array[Byte]] */
     val codeBoxIdsLength: Int = r.getUInt().toIntExact

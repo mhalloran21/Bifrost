@@ -14,6 +14,8 @@ import io.circe.{Json, parser}
 object ProgramMethodExecutionSerializer extends BifrostSerializer[ProgramMethodExecution] {
 
   override def serialize(obj: ProgramMethodExecution, w: Writer): Unit = {
+    println(s"\n>>>>>>>>>>>>>>>> $obj")
+
     /* state: Seq[StateBox] */
     w.putUInt(obj.state.length)
     obj.state.foreach(stateBox => StateBoxSerializer.serialize(stateBox, w))
@@ -60,9 +62,17 @@ object ProgramMethodExecutionSerializer extends BifrostSerializer[ProgramMethodE
   override def parse(r: Reader): ProgramMethodExecution = {
     val stateLength: Int = r.getUInt().toIntExact
     val state: Seq[StateBox] = (0 until stateLength).map(_ => StateBoxSerializer.parse(r))
+    println(s"\n>>>>>>>>>>>>>>>>>>>>> stateLength: ${stateLength}")
+    println(s">>>>>>>>>>>>>>>>>>>>> state: ${state}")
+
     val codeLength: Int = r.getUInt().toIntExact
     val code: Seq[CodeBox] = (0 until codeLength).map(_ => CodeBoxSerializer.parse(r))
+    println(s">>>>>>>>>>>>>>>>>>>>> codeLength: ${codeLength}")
+    println(s">>>>>>>>>>>>>>>>>>>>> code: ${code}")
+
     val executionBox: ExecutionBox = ExecutionBoxSerializer.parse(r)
+    println(s">>>>>>>>>>>>>>>>>>>>> executionBox: ${executionBox}")
+
     val methodName: String = r.getByteString()
 
     val methodParams: Json = parser.parse(r.getIntString()) match {
