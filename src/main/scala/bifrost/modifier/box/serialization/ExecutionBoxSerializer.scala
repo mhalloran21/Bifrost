@@ -33,7 +33,8 @@ object ExecutionBoxSerializer extends BifrostSerializer[ExecutionBox] {
 
     /* stateBoxUUIDs: Seq[UUID], List of uuids of state boxes from ProgramBoxRegistry */
     val stateBoxUUIDsLength: Int = r.getUInt().toIntExact
-    println(s"\n>>>>>>>>>>>>>>>>>>>>> input: ${stateBoxUUIDsLength}")
+    println(s"\n>>>>>>>>>>>>>>>>>>>>> programBox: ${programBox}")
+    println(s">>>>>>>>>>>>>>>>>>>>> stateBoxUUIDsLength: ${stateBoxUUIDsLength}")
     val stateBoxUUIDs: Seq[UUID] = (0 until stateBoxUUIDsLength).map(i => {
       new UUID(r.getLong(), r.getLong())
     })

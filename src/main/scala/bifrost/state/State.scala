@@ -368,8 +368,8 @@ case class State( storage: LSMStore,
       )
     }
 
-    val executionBox: ExecutionBox =
-      ExecutionBoxSerializer.parseBytes(executionBoxBytes.get.data).get
+    //val executionBox: ExecutionBox = ExecutionBoxSerializer.parseBytes(executionBoxBytes.get.data).get
+    val executionBox: ExecutionBox = pme.executionBox
     val programProposition: PublicKey25519Proposition = executionBox.proposition
 
     /* This person belongs to program */
