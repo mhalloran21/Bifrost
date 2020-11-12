@@ -105,7 +105,12 @@ object Program {
              (party: PublicKey25519Proposition)
              (args: JsonObject): Json = {
 
+
+    println(s"\n>>>>>>>>>>> codebox: $codeBoxes\nmethodName: $methodName\nargs: $args")
+
     val chainProgramInterface = createProgramInterface(codeBoxes)
+
+    println(s"\n>>>>>>>>>>> CPI: $chainProgramInterface")
 
     methodCheck(methodName, args, chainProgramInterface)
 

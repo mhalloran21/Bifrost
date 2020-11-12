@@ -2,11 +2,11 @@ package bifrost.api
 
 import akka.actor.ActorRef
 import akka.http.scaladsl.model.headers.RawHeader
-import akka.http.scaladsl.model.{HttpEntity, HttpRequest, _}
+import akka.http.scaladsl.model.{ HttpEntity, HttpRequest, _ }
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.testkit.ScalatestRouteTest
 import akka.pattern.ask
-import akka.util.{ByteString, Timeout}
+import akka.util.{ ByteString, Timeout }
 import bifrost.BifrostGenerators
 import bifrost.history.History
 import bifrost.http.api.routes.ProgramApiRoute
@@ -15,23 +15,22 @@ import bifrost.modifier.ModifierId
 import bifrost.modifier.box._
 import bifrost.modifier.transaction.bifrostTransaction.Transaction
 import bifrost.nodeView.GenericNodeViewHolder.ReceivableMessages.GetDataFromCurrentView
-import bifrost.nodeView.{CurrentView, NodeViewHolderRef}
+import bifrost.nodeView.{ CurrentView, NodeViewHolderRef }
 import bifrost.settings.BifrostContext
-import bifrost.state.{State, StateChanges}
-import bifrost.utils.NetworkTimeProvider
+import bifrost.state.{ State, StateChanges }
 import bifrost.wallet.Wallet
 import com.google.common.primitives.Ints
 import io.circe._
 import io.circe.parser._
 import io.circe.syntax._
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 import scorex.crypto.encode.Base58
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.reflect.io.Path
 import scala.util.Try
-import org.scalatest.matchers.should.Matchers
-import org.scalatest.wordspec.AnyWordSpec
 
 /**
   * Created by cykoz on 6/13/2017.

@@ -108,35 +108,33 @@ class ProgramPreprocessorSpec extends AnyPropSpec
 
   property("ProgramPreprocessor should split a single script into separate state and code objects") {
 
-    /*
     val easyScript =
       s"""
-         |var a = 0
-         |
-         |/**
-         |* @param {Number}
-         |* @param {Number}
-         |**/
-         |add = function(a,b) {
-         |  return a + b
-         |}
-         |
-         |/**
-         |* @param {Number}
-         |* @param {Number}
-         |**/
-         |sub = function(a,b) {
-         |  return a - b
-         |}
-         |
-         |/**
-         |* @param {String}
-         |* @param {String}
-         |**/
-         |concat = function(a,b) {
-         |  return a + b
-         |}
+        var a = 0
+
+        /**
+        * @param {Number}
+        * @param {Number}
+        **/
+        add = function(a,b) {
+          return a + b
+        }
+
+        /**
+        * @param {Number}
+        * @param {Number}
+        **/
+        sub = function(a,b) {
+          return a - b
+        }
+
+        /**
+        * @param {String}
+        * @param {String}
+        **/
+        concat = function(a,b) {
+          return a + b
+        }
        """.stripMargin
-      */
   }
 }

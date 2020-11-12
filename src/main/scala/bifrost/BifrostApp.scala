@@ -2,7 +2,7 @@ package bifrost
 
 import java.lang.management.ManagementFactory
 
-import akka.actor.{ActorRef, ActorSystem, PoisonPill}
+import akka.actor.{ ActorRef, ActorSystem, PoisonPill }
 import akka.http.scaladsl.Http
 import akka.io.Tcp
 import akka.pattern.ask
@@ -21,16 +21,17 @@ import bifrost.modifier.box.proposition.ProofOfKnowledgeProposition
 import bifrost.modifier.transaction.bifrostTransaction.Transaction
 import bifrost.network._
 import bifrost.network.message._
-import bifrost.nodeView.{NodeViewHolder, NodeViewHolderRef}
-import bifrost.settings.{AppSettings, BifrostContext, NetworkType, StartupOpts}
+import bifrost.nodeView.{ NodeViewHolder, NodeViewHolderRef }
+import bifrost.settings.{ AppSettings, BifrostContext, NetworkType, StartupOpts }
 import bifrost.utils.Logging
-import com.sun.management.{HotSpotDiagnosticMXBean, VMOption}
-import com.typesafe.config.{Config, ConfigFactory}
+import com.sun.management.{ HotSpotDiagnosticMXBean, VMOption }
+import com.typesafe.config.{ Config, ConfigFactory }
 import kamon.Kamon
+import org.graalvm.polyglot.Context
 
 import scala.concurrent.duration._
-import scala.concurrent.{Await, ExecutionContext, Future}
-import scala.util.{Failure, Success}
+import scala.concurrent.{ Await, ExecutionContext, Future }
+import scala.util.{ Failure, Success }
 
 class BifrostApp(startupOpts: StartupOpts) extends Logging with Runnable {
 

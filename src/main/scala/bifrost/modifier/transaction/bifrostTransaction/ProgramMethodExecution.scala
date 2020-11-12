@@ -2,7 +2,7 @@ package bifrost.modifier.transaction.bifrostTransaction
 
 import java.util.UUID
 
-import bifrost.crypto.{FastCryptographicHash, Signature25519}
+import bifrost.crypto.{ FastCryptographicHash, Signature25519 }
 import bifrost.history.History
 import bifrost.modifier.box._
 import bifrost.modifier.box.proposition.PublicKey25519Proposition
@@ -12,12 +12,12 @@ import bifrost.program.Program
 import bifrost.settings.AppSettings
 import bifrost.state.ProgramBoxRegistry
 import bifrost.utils.serialization.BifrostSerializer
-import com.google.common.primitives.{Bytes, Longs}
-import com.typesafe.config.{Config, ConfigFactory}
+import com.google.common.primitives.{ Bytes, Longs }
+import com.typesafe.config.{ Config, ConfigFactory }
 import io.circe.syntax._
-import io.circe.{Decoder, HCursor, Json}
+import io.circe.{ Decoder, HCursor, Json }
 
-import scala.util.Try
+import scala.util.{ Failure, Success, Try }
 
 case class ProgramMethodExecution(state: Seq[StateBox],
                                   code: Seq[CodeBox],
@@ -73,13 +73,16 @@ case class ProgramMethodExecution(state: Seq[StateBox],
 
     val nonce = ProgramTransaction.nonceFromDigest(digest)
 
-    try {
-      Program.execute(state, code, methodName)(owner)(methodParams.asObject.get)
-    } catch {
-      case e: Exception => throw e.getCause
-    }
+//    try {
+//      Program.execute(state, code, methodName)(owner)(methodParams.asObject.get)
+//    } catch {
+//      case e: Exception => throw e.getCause
+//    }
 
-    val programResult: Json = Program.execute(state, code, methodName)(owner)(methodParams.asObject.get)
+    val programResult: Json = Try(Program.execute(state, code, methodName)(owner)(methodParams.asObject.get)) match {
+      case Success(json) => json
+      case Failure(ex)   => throw ex
+    }
 
     val updatedStateBox: StateBox = StateBox(owner, nonce, state.head.value, programResult)
 
