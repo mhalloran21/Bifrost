@@ -105,12 +105,7 @@ object Program {
              (party: PublicKey25519Proposition)
              (args: JsonObject): Json = {
 
-
-    println(s"\n>>>>>>>>>>> codebox: $codeBoxes\nmethodName: $methodName\nargs: $args")
-
     val chainProgramInterface = createProgramInterface(codeBoxes)
-
-    println(s"\n>>>>>>>>>>> CPI: $chainProgramInterface")
 
     methodCheck(methodName, args, chainProgramInterface)
 
@@ -121,7 +116,12 @@ object Program {
 
     val programCode: String = codeBoxes.foldLeft("")((a,b) => a ++ b.code.foldLeft("")((a,b) => a ++ (b + "\n")))
 
-    val jsre: Context = Context.create("js")
+    //val jsre: Context = Context.create("js")
+    val jsre: Context = Context
+      .newBuilder("js")
+      .option("Valkyrie", "true")
+      .build
+
     val bindings = jsre.getBindings("js")
 
     //Pass in JSON objects for each read-only StateBox
