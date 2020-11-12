@@ -135,7 +135,7 @@ class Forger(viewHolderRef: ActorRef, settings: ForgingSettings, bifrostContext:
       val invalidBoxes = tx.newBoxes.forall(b ⇒ state.closedBox(b.id).isEmpty)
       val txValid = state.validate(tx)
       if (txValid.isFailure) {
-        log.debug(s"${Console.RED}Invalid Unconfirmed transaction $tx. Removing transaction${Console.RESET}")
+        //log.debug(s"${Console.RED}Invalid Unconfirmed transaction $tx. Removing transaction${Console.RESET}")
         txValid.failed.get.printStackTrace()
         memPool.remove(tx)
       }

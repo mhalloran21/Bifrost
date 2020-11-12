@@ -138,7 +138,21 @@ object Program {
          |}
        """.stripMargin
 
+    val valkyrie: String =
+      s"""
+         |  function Valkyrie_createAssets(issuer, to, amount, assetCode, fee, data) {
+         |    res = ValkyrieReserved.createAssets(issuer, to , amount, assetCode, fee, data);
+         |    return res; }
+         |  function Valkyrie_transferAssets(issuer, from, to, amount, assetCode, fee) {
+         |    res = ValkyrieReserved.transferAssets(issuer, from, to , amount, assetCode, fee);
+         |    return res; };
+         |  function Valkyrie_transferArbits(from, to, amount, fee) {
+         |    res = ValkyrieReserved.transferArbits(from, to , amount, fee);
+         |    return res; };
+     """.stripMargin
+
     jsre.eval("js", getFromState)
+    jsre.eval("js", valkyrie)
 
     //Pass in writable state and functions
     jsre.eval("js", preparedState)

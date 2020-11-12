@@ -140,7 +140,7 @@ object ProgramCreation {
     val outcome = ExecutionBuilder.validate(tx.executionBuilder)
     require(outcome.isSuccess)
 
-    require(tx.signatures(tx.owner).isValid(tx.owner, tx.messageToSign), "Not all signatures were valid")
+    //require(tx.signatures(tx.owner).isValid(tx.owner, tx.messageToSign), "Not all signatures were valid")
 
   }.flatMap(_ => ProgramTransaction.commonValidation(tx))
 
