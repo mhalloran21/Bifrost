@@ -118,7 +118,7 @@ scalacOptions ++= Seq(
 )
 
 javaOptions ++= Seq(
-  "-Xbootclasspath/a:ValkyrieInstrument-1.0.jar",
+  "-Xbootclasspath/a:./lib/ValkyrieInstrument-1.0.jar",
   // from https://groups.google.com/d/msg/akka-user/9s4Yl7aEz3E/zfxmdc0cGQAJ
   "-XX:+UseG1GC",
   "-XX:+UseNUMA",
