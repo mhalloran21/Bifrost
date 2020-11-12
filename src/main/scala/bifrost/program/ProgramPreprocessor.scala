@@ -278,6 +278,7 @@ object ProgramPreprocessor {
         jsre.eval("js", s"typeof ${v._1}").toString match {
           case "number" => varJson += (v._1 -> JsonNumber.fromString(v._2.toString).get.asJson)
           case "string" => varJson += (v._1 -> v._2.asJson)
+          case "none"   => varJson += (v._1 -> "".asJson)
           case _ => throw new ClassCastException("Not a valid JavaScript type")
         }
       }
