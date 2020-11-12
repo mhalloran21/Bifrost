@@ -110,7 +110,7 @@ class Forger(viewHolderRef: ActorRef, settings: ForgingSettings, bifrostContext:
 
     val transactions = pickTransactions(m, s, w, h.bestBlock).get
 
-    iteration(h.bestBlock, h.difficulty, boxKeys, transactions, settings.version) match {
+    iteration(h.bestBlock, h.difficulty, boxKeys, transactions, settings.version, m) match {
       case Some(block) =>
         log.debug(s"Locally generated block: $block")
         viewHolderRef ! LocallyGeneratedModifier[Block](block)
@@ -135,8 +135,8 @@ class Forger(viewHolderRef: ActorRef, settings: ForgingSettings, bifrostContext:
       val invalidBoxes = tx.newBoxes.forall(b ⇒ state.closedBox(b.id).isEmpty)
       val txValid = state.validate(tx)
       if (txValid.isFailure) {
-        //log.debug(s"${Console.RED}Invalid Unconfirmed transaction $tx. Removing transaction${Console.RESET}")
-        //txValid.failed.get.printStackTrace()
+        log.debug(s"${Console.RED}Invalid Unconfirmed transaction $tx. Removing transaction${Console.RESET}")
+        txValid.failed.get.printStackTrace()
         memPool.remove(tx)
       }
       if(!invalidBoxes) {
@@ -152,7 +152,8 @@ class Forger(viewHolderRef: ActorRef, settings: ForgingSettings, bifrostContext:
                 difficulty: Long,
                 boxKeys: Seq[(ArbitBox, PrivateKey25519)],
                 txsToInclude: Seq[Transaction],
-                version: Block.Version): Option[Block] = {
+                version: Block.Version,
+                  memPool: MemPool): Option[Block] = {
 
     val timestamp = bifrostContext.timeProvider.time()
     val target = calcAdjustedTarget(parent, difficulty, timestamp)
@@ -164,6 +165,7 @@ class Forger(viewHolderRef: ActorRef, settings: ForgingSettings, bifrostContext:
     log.debug(s"Successful hits: ${successfulHits.size}")
 
     successfulHits.headOption.map { case (boxKey, _) =>
+      txsToInclude.map(memPool.remove) // JAA - temporary, just for the SBTB demo!!!
       Block.create(parent.id, timestamp, txsToInclude, boxKey._1, boxKey._2, version)
     }
   }
