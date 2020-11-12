@@ -5,7 +5,6 @@ import java.util.UUID
 import bifrost.modifier.box.{ExecutionBox, ProgramBox}
 import bifrost.utils.Extensions._
 import bifrost.utils.serialization.{BifrostSerializer, Reader, Writer}
-import com.google.common.primitives.Longs
 
 object ExecutionBoxSerializer extends BifrostSerializer[ExecutionBox] {
 
@@ -33,8 +32,8 @@ object ExecutionBoxSerializer extends BifrostSerializer[ExecutionBox] {
     /* stateBoxUUIDs: Seq[UUID], List of uuids of state boxes from ProgramBoxRegistry */
     val stateBoxUUIDsLength: Int = r.getUInt().toIntExact
     val stateBoxUUIDs: Seq[UUID] = (0 until stateBoxUUIDsLength).map(_ => {
-      val h1 = r.getULong()
-      val h2 = r.getULong()
+      val h1 = r.getLong()
+      val h2 = r.getLong()
       new UUID(h1, h2)
     })
 
