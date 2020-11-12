@@ -104,7 +104,9 @@ case class ProgramCreation(executionBuilder: ExecutionBuilder,
 
     val codeBox = CodeBox(owner, codeNonce, UUID.nameUUIDFromBytes(CodeBox.idFromBox(owner, codeNonce)),
       executionBuilder.core.code.values.toSeq, executionBuilder.core.interface)
+
     val stateUUIDs: Seq[UUID] = Seq(UUID.nameUUIDFromBytes(stateBox.id)) ++ readOnlyStateBoxes
+
     val executionBox = ExecutionBox(owner, execNonce, UUID.nameUUIDFromBytes(ExecutionBox.idFromBox(owner, execNonce)), stateUUIDs, Seq(codeBox.id))
 
     val investorDeductedBox: PolyBox = PolyBox(owner, investorNonce, leftOver)

@@ -16,8 +16,8 @@ object ExecutionBoxSerializer extends BifrostSerializer[ExecutionBox] {
     w.putUInt(obj.stateBoxUUIDs.length)
     obj.stateBoxUUIDs.foreach { id =>
       // The SignificantBits could be negative longs
-      w.putLong(obj.value.getMostSignificantBits)
-      w.putLong(obj.value.getLeastSignificantBits)
+      w.putLong(id.getMostSignificantBits)
+      w.putLong(id.getLeastSignificantBits)
     }
 
     /* codeBoxIds: Seq[Array[Byte]] */
