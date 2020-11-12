@@ -135,7 +135,11 @@ object ProgramPreprocessor {
   private def deriveFromInit(initjs: String, name: String, announcedRegistry: Option[Map[String, Seq[String]]] = None)(args: JsonObject):
     (Map[String, Seq[String]], /*String,*/ Json, Map[String, String]) = {
 
-    val jsre: Context = Context.create("js")
+    //val jsre: Context = Context.create("js")
+    val jsre: Context = Context
+      .newBuilder("js")
+      .option("Valkyrie", "true")
+      .build
 
     /*jsre.eval("js", objectAssignPolyfill)
     jsre.eval("js", initjs)
