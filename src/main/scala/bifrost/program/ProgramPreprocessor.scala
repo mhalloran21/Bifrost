@@ -310,7 +310,7 @@ object ProgramPreprocessor {
       node.getBody.accept(new NodeVisitor[LexicalContext](new LexicalContext) {
 
         override def leaveFunctionNode(functionNode: FunctionNode): Node = {
-          functions += functionNode.getName -> s"$functionNode = {${functionNode.getBody}}"
+          functions += functionNode.getName -> s"$functionNode {${functionNode.getBody}}"
           functionNode
         }
       })
