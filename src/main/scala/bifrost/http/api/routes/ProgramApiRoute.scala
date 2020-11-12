@@ -118,6 +118,8 @@ case class ProgramApiRoute(override val settings: AppSettings, nodeViewHolderRef
 
       //TODO Replace with method to return all boxes from program box registry
       val executionBox = programBoxId2Box(view.state, (params \\ "programId").head.asString.get).asInstanceOf[ExecutionBox]
+      println(s"\n>>>>>>>>>>>>>> execBox: $executionBox")
+
       val state: Seq[StateBox] = executionBox.stateBoxUUIDs.map { sb =>
         view.state.pbr.getBox(sb).get.asInstanceOf[StateBox]
       }
