@@ -14,7 +14,7 @@ object ExecutionBoxSerializer extends BifrostSerializer[ExecutionBox] {
 
     /* stateBoxUUIDs: Seq[UUID], List of uuids of state boxes from ProgramBoxRegistry */
     println(s"\n>>>>>>>>>>>>>>>>>>>>> input: ${obj.stateBoxUUIDs.length}")
-    w.putUInt(obj.stateBoxUUIDs.length)
+    w.putInt(obj.stateBoxUUIDs.length)
     obj.stateBoxUUIDs.foreach { id =>
       val h1 = Longs.toByteArray(id.getMostSignificantBits)
       val h2 = Longs.toByteArray(id.getLeastSignificantBits)
@@ -33,7 +33,7 @@ object ExecutionBoxSerializer extends BifrostSerializer[ExecutionBox] {
     val programBox: ProgramBox = ProgramBoxSerializer.parse(r)
 
     /* stateBoxUUIDs: Seq[UUID], List of uuids of state boxes from ProgramBoxRegistry */
-    val stateBoxUUIDsLength: Int = r.getUInt().toIntExact
+    val stateBoxUUIDsLength: Int = r.getInt()
     println(s"\n>>>>>>>>>>>>>>>>>>>>> output: ${stateBoxUUIDsLength}")
     val stateBoxUUIDs: Seq[UUID] = (0 until stateBoxUUIDsLength).map(i => {
       println(s">>>>>>>>>>>>>>>>>>>>> output iter: $i")
