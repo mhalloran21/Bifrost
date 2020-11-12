@@ -13,12 +13,11 @@ object ExecutionBoxSerializer extends BifrostSerializer[ExecutionBox] {
     ProgramBoxSerializer.serialize(obj, w)
 
     /* stateBoxUUIDs: Seq[UUID], List of uuids of state boxes from ProgramBoxRegistry */
-    println(s"\n>>>>>>>>>>>>>>>>>>>>> input: ${obj.stateBoxUUIDs.length}")
-    w.putInt(obj.stateBoxUUIDs.length)
+    w.putUInt(obj.stateBoxUUIDs.length)
     obj.stateBoxUUIDs.foreach { id =>
-      val h1 = Longs.toByteArray(id.getMostSignificantBits)
-      val h2 = Longs.toByteArray(id.getLeastSignificantBits)
-      w.putBytes(h1 ++ h2)
+      // The SignificantBits could be negative longs
+      w.putLong(obj.value.getMostSignificantBits)
+      w.putLong(obj.value.getLeastSignificantBits)
     }
 
     /* codeBoxIds: Seq[Array[Byte]] */
@@ -33,13 +32,10 @@ object ExecutionBoxSerializer extends BifrostSerializer[ExecutionBox] {
     val programBox: ProgramBox = ProgramBoxSerializer.parse(r)
 
     /* stateBoxUUIDs: Seq[UUID], List of uuids of state boxes from ProgramBoxRegistry */
-    val stateBoxUUIDsLength: Int = r.getInt()
-    println(s"\n>>>>>>>>>>>>>>>>>>>>> output: ${stateBoxUUIDsLength}")
+    val stateBoxUUIDsLength: Int = r.getUInt().toIntExact
+    println(s"\n>>>>>>>>>>>>>>>>>>>>> input: ${stateBoxUUIDsLength}")
     val stateBoxUUIDs: Seq[UUID] = (0 until stateBoxUUIDsLength).map(i => {
-      println(s">>>>>>>>>>>>>>>>>>>>> output iter: $i")
-      val h1 = Longs.fromByteArray(r.getBytes(8))
-      val h2 = Longs.fromByteArray(r.getBytes(8))
-      new UUID(h1, h2)
+      new UUID(r.getLong(), r.getLong())
     })
 
     /* codeBoxIds: Seq[Array[Byte]] */
