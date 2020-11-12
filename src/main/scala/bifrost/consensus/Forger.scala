@@ -136,7 +136,7 @@ class Forger(viewHolderRef: ActorRef, settings: ForgingSettings, bifrostContext:
       val txValid = state.validate(tx)
       if (txValid.isFailure) {
         //log.debug(s"${Console.RED}Invalid Unconfirmed transaction $tx. Removing transaction${Console.RESET}")
-        txValid.failed.get.printStackTrace()
+        //txValid.failed.get.printStackTrace()
         memPool.remove(tx)
       }
       if(!invalidBoxes) {
