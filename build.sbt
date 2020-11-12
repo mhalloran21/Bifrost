@@ -19,6 +19,9 @@ version := "1.1.0"
 mainClass in assembly := Some("bifrost.BifrostApp")
 test in assembly := {}
 
+//fork in Test := false
+//fork in Compile := false
+
 // The Typesafe repository
 resolvers += "Typesafe repository" at "https://repo.typesafe.com/typesafe/releases/"
 
@@ -117,18 +120,18 @@ scalacOptions ++= Seq(
   "-Ywarn-unused:-implicits,-privates"
 )
 
-javaOptions ++= Seq(
-  "-Xbootclasspath/p:./lib/ValkyrieInstrument-1.0.jar",
-  // from https://groups.google.com/d/msg/akka-user/9s4Yl7aEz3E/zfxmdc0cGQAJ
-  "-XX:+UseG1GC",
-  "-XX:+UseNUMA",
-  "-XX:+AlwaysPreTouch",
-  "-XX:+PerfDisableSharedMem",
-  "-XX:+ParallelRefProcEnabled",
-  "-XX:+UseStringDeduplication",
-  "-XX:+ExitOnOutOfMemoryError",
-  "-Xss64m"
-)
+//javaOptions ++= Seq(
+//  "-Xbootclasspath/p:ValkyrieInstrument-1.0.jar",
+//  // from https://groups.google.com/d/msg/akka-user/9s4Yl7aEz3E/zfxmdc0cGQAJ
+//  "-XX:+UseG1GC",
+//  "-XX:+UseNUMA",
+//  "-XX:+AlwaysPreTouch",
+//  "-XX:+PerfDisableSharedMem",
+//  "-XX:+ParallelRefProcEnabled",
+//  "-XX:+UseStringDeduplication",
+//  "-XX:+ExitOnOutOfMemoryError",
+//  "-Xss64m"
+//)
 
 testOptions in Test += Tests.Argument("-oD", "-u", "target/test-reports")
 testOptions in Test += Tests.Argument(TestFrameworks.ScalaCheck, "-verbosity", "2")
@@ -149,7 +152,7 @@ classLoaderLayeringStrategy := ClassLoaderLayeringStrategy.Flat
 
 Test / fork := false
 
-Compile / run / fork := true
+Compile / run / fork := false
 
 pomIncludeRepository := { _ => false }
 
