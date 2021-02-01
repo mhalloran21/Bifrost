@@ -26,7 +26,7 @@ jobs:
 #       run: sbt test
       
     - name: Generate documentation
-      run: sbt doc
+      run: sbt project gjallarhorn doc
 
     - name: Deploy github pages
       uses: peaceiris/actions-gh-pages@v3
