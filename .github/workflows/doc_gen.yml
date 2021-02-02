@@ -26,11 +26,11 @@ jobs:
 #       run: sbt test
       
     - name: Generate documentation
-      run: sbt "project gjallarhorn" "doc"
+      run: sbt "project gjallarhorn" doc
 
     - name: Deploy github pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-        publish_dir: ./target/scala-2.12/api
+        publish_dir: ./gjallarhorn/target/scala-2.12/api
         #cname: bifrost.docs.topl.co
